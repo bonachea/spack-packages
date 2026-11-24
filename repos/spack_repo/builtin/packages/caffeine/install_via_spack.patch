@@ -1,0 +1,28 @@
+commit 450df563c59c52f197c3d0324db340ce9e3fd998
+Author: Dan Bonachea <dobonachea@lbl.gov>
+Date:   Tue Nov 24 19:28:02 2026 -0800
+
+    install.sh: Patch 0.8.4 release to skip Spack-relevant checks
+
+diff --git a/install.sh b/install.sh
+index a2b6562e..9063ac20 100755
+--- a/install.sh
++++ b/install.sh
+@@ -698,7 +698,7 @@ GASNET_LIBDIR=${GASNET_LIBDIR#-L}
+ 
+ # Check whether GASNet appears to be a Spack install. If yes, bail out.
+ # Note: most Spack installations have "opt/spack" in the directory path.
+-if [[ $GASNET_LIBDIR == *spack* ]] && \
++if false && \
+    [[ $(realpath $GASNET_LIBDIR) != $(realpath "$PREFIX/lib") ]]; then
+   cat << EOF
+ ***NOTICE***: The GASNet library built by Spack is ONLY intended for
+@@ -718,7 +718,7 @@ fi
+ # Strip compiler flags
+ # Warning: This assumes the full path doesn't contain any spaces!
+ GASNET_CC_STRIPPED=$(awk '{print $1};' <<< $GASNET_CC)
+-if [ "$(realpath $GASNET_CC_STRIPPED)" != "$(realpath $CC)" ]; then 
++if [ "$(realpath $GASNET_CC_STRIPPED)" != "$(realpath $CC)" ] && false ; then 
+   echo "ERROR: C Compiler mismatch: GASNET_CC=$(realpath $GASNET_CC_STRIPPED) and CC=$(realpath $CC) don't match"
+   exit 1;
+ fi
